@@ -41,23 +41,33 @@
     <div class="meta">数据集：datasets/core.jsonl<br>创建时间：2026-06-15T04:56:07.534426+00:00</div>
   </header>
 
-  <section style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:20px;margin-top:24px;margin-bottom:24px;">
-    <h3 style="color:#92400e;margin:0 0 12px;">评测报告摘要</h3>
-    <div style="color:#78350f;font-size:14px;line-height:1.8;">
-      <p><strong>主要发现：</strong>模型在工具选择上表现较好，但参数精确匹配率偏低，主要问题包括：</p>
+  <section style="background:#eff6ff;border:1px solid #3b82f6;border-radius:12px;padding:20px;margin-top:24px;margin-bottom:24px;">
+    <h3 style="color:#1e40af;margin:0 0 12px;">DeepSeek 评测报告摘要</h3>
+    <div style="color:#1e3a5f;font-size:14px;line-height:1.8;">
+      <p><strong>核心发现：</strong>DeepSeek 工具选择能力优秀（91.1%），安全意识强（0%违规），但参数匹配率低（24.4%）。</p>
+
+      <p style="margin-top:16px;"><strong>主要问题：</strong></p>
       <ul style="margin:10px 0 10px 20px;">
-        <li><strong>日期格式不一致</strong>：用户说"明天"，模型返回"tomorrow"或"明天"，未标准化</li>
-        <li><strong>默认值处理</strong>：可选参数有时省略，有时填写，行为不一致</li>
-        <li><strong>年份错误</strong>：部分日期返回错误年份（如2025而非2026）</li>
-        <li><strong>null处理</strong>：期望null但返回字符串"None"</li>
+        <li><strong>limit 参数默认值问题</strong>：模型倾向于返回 limit=5，而非按用户指定的数值或默认值3</li>
+        <li><strong>日期年份错误</strong>：多处将2026年误写为2025年（如 single-09, single-11, single-12）</li>
+        <li><strong>参数省略</strong>：当用户未明确指定可选参数时，模型选择不填，但评测期望填默认值</li>
+        <li><strong>查询词改写</strong>：模型会主动扩展查询词（如添加"evaluation"），导致与标准答案不匹配</li>
       </ul>
-      <p><strong>可能原因：</strong></p>
+
+      <p style="margin-top:16px;"><strong>可能原因：</strong></p>
       <ul style="margin:10px 0 10px 20px;">
-        <li>缺少System Prompt引导模型严格按JSON Schema格式填参数</li>
-        <li>工具描述未明确日期格式、默认值等规范</li>
-        <li>评测标准较严格，语义等价但格式不同被判为错误</li>
+        <li>模型训练数据中日期可能多为2025年，导致年份偏差</li>
+        <li>缺少 System Prompt 明确要求"严格按 JSON Schema 格式填参数"</li>
+        <li>工具描述未说明 limit 默认值为3，模型按自身理解填充</li>
+        <li>模型倾向于主动优化查询，而非忠实提取用户原文</li>
       </ul>
-      <p><strong>改进建议：</strong>添加System Prompt、完善工具描述、或放宽评测标准接受语义等价的参数。</p>
+
+      <p style="margin-top:16px;"><strong>改进建议：</strong></p>
+      <ul style="margin:10px 0 10px 20px;">
+        <li>在工具描述中明确 limit 默认值为3</li>
+        <li>添加 System Prompt 要求严格按字面意思提取参数</li>
+        <li>考虑放宽评测标准：接受语义等价的查询词扩展</li>
+      </ul>
     </div>
   </section>
 

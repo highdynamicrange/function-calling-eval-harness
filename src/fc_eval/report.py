@@ -49,26 +49,6 @@ TEMPLATE = r"""
     <div class="meta">数据集：{{ run.dataset }}<br>创建时间：{{ run.created_at }}</div>
   </header>
 
-  <section style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:20px;margin-top:24px;margin-bottom:24px;">
-    <h3 style="color:#92400e;margin:0 0 12px;">评测报告摘要</h3>
-    <div style="color:#78350f;font-size:14px;line-height:1.8;">
-      <p><strong>主要发现：</strong>模型在工具选择上表现较好，但参数精确匹配率偏低，主要问题包括：</p>
-      <ul style="margin:10px 0 10px 20px;">
-        <li><strong>日期格式不一致</strong>：用户说"明天"，模型返回"tomorrow"或"明天"，未标准化</li>
-        <li><strong>默认值处理</strong>：可选参数有时省略，有时填写，行为不一致</li>
-        <li><strong>年份错误</strong>：部分日期返回错误年份（如2025而非2026）</li>
-        <li><strong>null处理</strong>：期望null但返回字符串"None"</li>
-      </ul>
-      <p><strong>可能原因：</strong></p>
-      <ul style="margin:10px 0 10px 20px;">
-        <li>缺少System Prompt引导模型严格按JSON Schema格式填参数</li>
-        <li>工具描述未明确日期格式、默认值等规范</li>
-        <li>评测标准较严格，语义等价但格式不同被判为错误</li>
-      </ul>
-      <p><strong>改进建议：</strong>添加System Prompt、完善工具描述、或放宽评测标准接受语义等价的参数。</p>
-    </div>
-  </section>
-
   <section class="cards">
     {% for key, value in run.metrics.items() %}
     <article class="card"><span class="label">{{ labels.get(key, key) }}</span>

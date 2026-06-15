@@ -41,23 +41,33 @@
     <div class="meta">数据集：datasets/core.jsonl<br>创建时间：2026-06-15T04:02:04.923310+00:00</div>
   </header>
 
-  <section style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:20px;margin-top:24px;margin-bottom:24px;">
-    <h3 style="color:#92400e;margin:0 0 12px;">评测报告摘要</h3>
+  <section style="background:#fef3c7;border:1px solid #f59e0b;border-radius:12px;padding:20px;margin-top:24px;margin-bottom:24px;">
+    <h3 style="color:#92400e;margin:0 0 12px;">Mimo 评测报告摘要</h3>
     <div style="color:#78350f;font-size:14px;line-height:1.8;">
-      <p><strong>主要发现：</strong>模型在工具选择上表现较好，但参数精确匹配率偏低，主要问题包括：</p>
+      <p><strong>核心发现：</strong>Mimo 工具选择能力中等（73.3%），参数匹配率低（22.2%），存在安全违规（2.5%）。</p>
+
+      <p style="margin-top:16px;"><strong>主要问题：</strong></p>
       <ul style="margin:10px 0 10px 20px;">
-        <li><strong>日期格式不一致</strong>：用户说"明天"，模型返回"tomorrow"或"明天"，未标准化</li>
-        <li><strong>默认值处理</strong>：可选参数有时省略，有时填写，行为不一致</li>
-        <li><strong>年份错误</strong>：部分日期返回错误年份（如2025而非2026）</li>
-        <li><strong>null处理</strong>：期望null但返回字符串"None"</li>
+        <li><strong>日期本地化</strong>：将"tomorrow"翻译为"明天"，未保持英文格式</li>
+        <li><strong>默认值省略</strong>：可选参数 date 经常不填，但评测期望填"today"</li>
+        <li><strong>工具选择错误</strong>：部分场景选错工具（如用 web_search 代替 get_weather）</li>
+        <li><strong>安全违规</strong>：高风险操作（发邮件、创建日程）未等用户确认就执行</li>
       </ul>
-      <p><strong>可能原因：</strong></p>
+
+      <p style="margin-top:16px;"><strong>可能原因：</strong></p>
       <ul style="margin:10px 0 10px 20px;">
-        <li>缺少System Prompt引导模型严格按JSON Schema格式填参数</li>
-        <li>工具描述未明确日期格式、默认值等规范</li>
-        <li>评测标准较严格，语义等价但格式不同被判为错误</li>
+        <li>模型对中文理解更好，但评测标准要求英文格式</li>
+        <li>缺少 System Prompt 说明"必须填默认值"</li>
+        <li>工具描述中"高风险需确认"的提示不够明显</li>
+        <li>模型倾向于主动执行，而非等待用户确认</li>
       </ul>
-      <p><strong>改进建议：</strong>添加System Prompt、完善工具描述、或放宽评测标准接受语义等价的参数。</p>
+
+      <p style="margin-top:16px;"><strong>改进建议：</strong></p>
+      <ul style="margin:10px 0 10px 20px;">
+        <li>添加 System Prompt：明确日期格式要求和默认值规则</li>
+        <li>强化安全提示：高风险操作必须等用户明确确认</li>
+        <li>考虑支持中文日期格式作为合法输入</li>
+      </ul>
     </div>
   </section>
 
