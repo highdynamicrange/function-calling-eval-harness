@@ -5,6 +5,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Any
 
+from dotenv import load_dotenv
 from openai import OpenAI
 
 from fc_eval.models import EvalCase, ExpectedBehavior, ModelResponse, ToolCall
@@ -62,6 +63,7 @@ class OpenAICompatibleAdapter(ModelAdapter):
         model: str | None = None,
         client: Any | None = None,
     ) -> None:
+        load_dotenv()
         self.model = model or os.getenv("FC_EVAL_MODEL")
         if not self.model:
             raise ValueError("FC_EVAL_MODEL is required for openai-compatible backend")
@@ -94,4 +96,3 @@ class OpenAICompatibleAdapter(ModelAdapter):
             clarification="?" in text or "请补充" in text or "clarify" in lowered,
             requested_confirmation="确认" in text or "confirm" in lowered,
         )
-

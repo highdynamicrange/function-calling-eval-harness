@@ -48,6 +48,7 @@ def test_mock_adapter_failure_tags(tag):
 
 
 def test_openai_adapter_requires_model(monkeypatch):
+    monkeypatch.setattr("fc_eval.adapters.load_dotenv", lambda: False)
     monkeypatch.delenv("FC_EVAL_MODEL", raising=False)
     with pytest.raises(ValueError, match="FC_EVAL_MODEL"):
         OpenAICompatibleAdapter(client=object())
@@ -77,4 +78,3 @@ def test_openai_adapter_parses_tool_calls_and_clarification():
     assert response.tool_calls[0].arguments["location"] == "北京"
     assert "__raw_arguments__" in response.tool_calls[1].arguments
     assert response.clarification
-

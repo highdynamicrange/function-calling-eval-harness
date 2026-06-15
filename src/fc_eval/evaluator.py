@@ -4,6 +4,8 @@ import time
 from collections import Counter, defaultdict
 from collections.abc import Iterable
 
+from tqdm import tqdm
+
 from fc_eval.adapters import ModelAdapter
 from fc_eval.models import CaseResult, EvalCase, ExpectedBehavior, ToolCall
 from fc_eval.tools import MockToolExecutor
@@ -182,7 +184,10 @@ def evaluate_dataset(
     executor: MockToolExecutor | None = None,
 ) -> list[CaseResult]:
     tool_executor = executor or MockToolExecutor()
-    return [evaluate_case(case, adapter, tool_executor) for case in cases]
+    return [
+        evaluate_case(case, adapter, tool_executor)
+        for case in tqdm(cases, desc="评测进度", unit="条")
+    ]
 
 
 def aggregate_metrics(results: list[CaseResult]) -> dict[str, float]:
