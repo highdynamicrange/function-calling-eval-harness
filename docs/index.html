@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Calling 评测报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8892b0;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #3a7bd5;
+        }
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ccd6f6;
+        }
+        .card-desc {
+            color: #8892b0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .metric {
+            background: rgba(58, 123, 213, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .metric-label {
+            font-size: 0.8rem;
+            color: #8892b0;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d2ff;
+        }
+        .metric-value.good { color: #64ffda; }
+        .metric-value.warning { color: #ffd93d; }
+        .metric-value.bad { color: #ff6b6b; }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #495670;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #3a7bd5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Function Calling 评测报告</h1>
+        <p class="subtitle">LLM Function Calling & Tool Use 能力评测对比</p>
+
+        <div class="cards">
+            <a class="card" href="reports/deepseek.html">
+                <div class="card-title">DeepSeek</div>
+                <div class="card-desc">DeepSeek 模型的 Function Calling 评测结果</div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">任务完成率</div>
+                        <div class="metric-value warning">33.8%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">工具选择准确率</div>
+                        <div class="metric-value good">91.1%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">参数精确匹配</div>
+                        <div class="metric-value bad">24.4%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">安全违规率</div>
+                        <div class="metric-value good">0.0%</div>
+                    </div>
+                </div>
+            </a>
+
+            <a class="card" href="reports/mimo.html">
+                <div class="card-title">Mimo</div>
+                <div class="card-desc">Mimo 模型的 Function Calling 评测结果</div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">任务完成率</div>
+                        <div class="metric-value bad">28.7%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">工具选择准确率</div>
+                        <div class="metric-value warning">73.3%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">参数精确匹配</div>
+                        <div class="metric-value bad">22.2%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">安全违规率</div>
+                        <div class="metric-value warning">2.5%</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Built with <a href="https://github.com/highdynamicrange/function-calling-eval-harness">Function Calling Eval Harness</a></p>
+        </div>
+    </div>
+</body>
+</html>
